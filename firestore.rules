@@ -1,0 +1,18 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // This application intentionally has ONE shared room, not private chats.
+    match /messages/{messageId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null
+        && request.resource.data.keys().hasOnly(['text', 'sender', 'senderId', 'timestamp'])
+        && request.resource.data.text is string
+        && request.resource.data.text.size() > 0
+        && request.resource.data.text.size() <= 2000
+        && request.resource.data.senderId == request.auth.uid
+        && request.resource.data.sender == request.auth.token.email
+        && request.resource.data.timestamp == request.time;
+      allow update, delete: if false;
+    }
+  }
+}

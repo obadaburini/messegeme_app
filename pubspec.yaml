@@ -1,5 +1,5 @@
 name: messegeme_app
-description: A new Flutter project.
+description: A responsive real-time community chat built with Flutter and Firebase.
 publish_to: 'none'
 
 version: 1.0.0+1

@@ -1,120 +1,88 @@
 import 'package:flutter/material.dart';
-import 'package:messegeme_app/widget/my_button.dart';
+import '../services/chat_service.dart';
+import '../widget/app_layout.dart';
 
-class WelcomeScreen extends StatefulWidget {
-  const WelcomeScreen({Key? key}) : super(key: key);
-
-  @override
-  _WelcomeScreenState createState() => _WelcomeScreenState();
-}
-
-class _WelcomeScreenState extends State<WelcomeScreen>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _animation;
+class WelcomeScreen extends StatelessWidget {
+  const WelcomeScreen({super.key, required this.service});
+  final ChatService service;
 
   @override
-  void initState() {
-    super.initState();
-
-    _controller = AnimationController(
-      vsync: this,
-      duration: Duration(seconds: 2),
-    );
-
-    _animation =
-        CurvedAnimation(parent: _controller, curve: Curves.easeIn);
-
-    _controller.forward();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: AnimatedBuilder(
-        animation: _animation,
-        builder: (context, child) {
-          return Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Colors.orange.shade200,
-                  Colors.orange.shade800,
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+  Widget build(BuildContext context) => Scaffold(
+    body: AppLayout(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(28),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const Center(child: BrandMark(size: 108)),
+            const SizedBox(height: 32),
+            const Text(
+              'Good conversations.\nCloser connections.',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 34,
+                height: 1.15,
+                fontWeight: FontWeight.w800,
+                color: Color(0xFF1E293B),
               ),
             ),
-            child: SafeArea(
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24),
-                child: Column(
-                  mainAxisAlignment:
-                      MainAxisAlignment.center,
-                  crossAxisAlignment:
-                      CrossAxisAlignment.stretch,
-                  children: [
-                    Column(
-                      children: [
-                        Hero(
-                          tag: 'logo',
-                          child: SizedBox(
-                            height: 140,
-                            child: Image.asset(
-                                'assets/images/logo.png'),
-                          ),
-                        ),
-                        SizedBox(height: 20),
-                        FadeTransition(
-                          opacity: _animation,
-                          child: Text(
-                            'MessageMe',
-                            style: TextStyle(
-                              fontSize: 42,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                              letterSpacing: 2,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    SizedBox(height: 60),
-
-                    MyButton(
-                      color: Colors.white,
-                      title: 'Sign In',
-                      onPressed: () {
-                        Navigator.pushNamed(
-                            context, '/signin');
-                      },
-                    ),
-
-                    SizedBox(height: 15),
-
-                    MyButton(
-                      color: Colors.black87,
-                      title: 'Register',
-                      onPressed: () {
-                        Navigator.pushNamed(
-                            context, '/register');
-                      },
-                    ),
-                  ],
+            const SizedBox(height: 20),
+            const Text(
+              'Welcome to MessageMe',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: brandOrange,
+                fontWeight: FontWeight.w700,
+                fontSize: 18,
+              ),
+            ),
+            const SizedBox(height: 12),
+            const Text(
+              'A simple place to share a thought and stay in touch with your community.',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 16,
+                height: 1.6,
+                color: Color(0xFF475569),
+              ),
+            ),
+            const SizedBox(height: 40),
+            FilledButton(
+              onPressed: () => Navigator.pushNamed(
+                context,
+                service.signedIn ? '/chat' : '/signin',
+              ),
+              child: Text(service.signedIn ? 'Open conversation' : 'Sign In'),
+            ),
+            const SizedBox(height: 14),
+            OutlinedButton(
+              onPressed: () => Navigator.pushNamed(context, '/register'),
+              style: OutlinedButton.styleFrom(
+                minimumSize: const Size(double.infinity, 52),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14),
                 ),
               ),
+              child: const Text('Create an account'),
             ),
-          );
-        },
+            const SizedBox(height: 28),
+            const Wrap(
+              alignment: WrapAlignment.center,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                Icon(Icons.forum_outlined, size: 18, color: brandOrange),
+                SizedBox(width: 8),
+                Text(
+                  'One shared space. Real-time conversations.',
+                  style: TextStyle(fontSize: 12),
+                ),
+              ],
+            ),
+            if (service.isDemo) const DemoNotice(),
+          ],
+        ),
       ),
-    );
-  }
+    ),
+  );
 }
