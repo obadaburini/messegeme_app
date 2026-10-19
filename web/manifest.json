@@ -1,11 +1,11 @@
 {
-    "name": "messegeme_app",
-    "short_name": "messegeme_app",
+    "name": "MessageMe",
+    "short_name": "MessageMe",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#B94709",
+    "theme_color": "#B94709",
+    "description": "A simple real-time community chat.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
