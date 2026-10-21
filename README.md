@@ -114,12 +114,8 @@ Captured from the **local demo** with synthetic content. No real user accounts, 
 | --- | --- | --- |
 | ![Welcome](docs/screenshots/welcome-mobile.png) | ![Sign in](docs/screenshots/signin-mobile.png) | ![Create account](docs/screenshots/register-mobile.png) |
 
-| Community chat | Input validation |
-| --- | --- |
-| ![Community chat](docs/screenshots/chat-mobile.png) | ![Input validation](docs/screenshots/validation-mobile.png) |
+![Community chat in the explicit local demo](docs/screenshots/chat-mobile.png)
 
-![Desktop welcome](docs/screenshots/welcome-desktop.png)
-
-![Desktop conversation](docs/screenshots/chat-desktop.png)
+Four representative existing captures are selected above. The remaining original captures are retained in `docs/screenshots/`; the live Firebase service was not used for the portfolio review.
 
 See [audit notes](docs/AUDIT.md) for changes, validation results, and remaining setup.
